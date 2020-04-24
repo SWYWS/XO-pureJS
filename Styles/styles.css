@@ -1,0 +1,21 @@
+.xo-field {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.xo-cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 20px;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: -4px;
+    line-height: 100px;
+    font-size: 70px;
+    font-family: cursive;
+}
