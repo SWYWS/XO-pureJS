@@ -35,21 +35,28 @@ function placeXO(elem, str) {
 }
 
 function isOver() {
-  if ((document.getElementById("0_0").textContent &&
-      document.getElementById("0_0").textContent == document.getElementById("1_1").textContent &&
-      document.getElementById("0_0").textContent == document.getElementById("2_2").textContent) || 
-      (document.getElementById("0_2").textContent &&
-      document.getElementById("0_2").textContent == document.getElementById("1_1").textContent &&
-      document.getElementById("0_2").textContent == document.getElementById("2_0").textContent)) 
+  let id_0_0 = document.getElementById("0_0"),
+      id_0_2 = document.getElementById("0_2"),
+      id_1_1 = document.getElementById("1_1");
+
+  if ((id_0_0.textContent &&
+      id_0_0.textContent == id_1_1.textContent &&
+      id_0_0.textContent == document.getElementById("2_2").textContent) || 
+      (id_0_2.textContent &&
+      id_0_2.textContent == id_1_1.textContent &&
+      id_0_2.textContent == document.getElementById("2_0").textContent)) 
     return true;
   
   for(let i=0; i<3; i++) {
-    if ((document.getElementById(i + "_0").textContent && 
-        document.getElementById(i + "_0").textContent == document.getElementById(i + "_1").textContent &&
-        document.getElementById(i + "_0").textContent == document.getElementById(i + "_2").textContent) ||
-        (document.getElementById("0_" + i).textContent &&
-        document.getElementById("0_" + i).textContent == document.getElementById("1_" + i).textContent &&
-        document.getElementById("0_" + i).textContent == document.getElementById("2_" + i).textContent)) 
+    let id_i_0 = document.getElementById(i + "_0"),
+        id_0_i = document.getElementById("0_" + i);
+        
+    if ((id_i_0.textContent && 
+        id_i_0.textContent == document.getElementById(i + "_1").textContent &&
+        id_i_0.textContent == document.getElementById(i + "_2").textContent) ||
+        (id_0_i.textContent &&
+        id_0_i.textContent == document.getElementById("1_" + i).textContent &&
+        id_0_i.textContent == document.getElementById("2_" + i).textContent)) 
       return true;
   }
   
