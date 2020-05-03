@@ -1,63 +1,21 @@
 "use strict"
 
 let XOField;
-let cells;
-
-function placeXO(elem, str) {
-  if (cells.length == 0) return;
-
-  elem.textContent = str;
-  cells.splice(cells.findIndex((item) => item === elem), 1);
-}
-
-function isOver() {
-  let id_0_0 = document.getElementById("0_0").textContent,
-    id_0_2 = document.getElementById("0_2").textContent,
-    id_1_1 = document.getElementById("1_1").textContent;
-
-  if ((id_0_0 &&
-    id_0_0 == id_1_1 &&
-    id_0_0 == document.getElementById("2_2").textContent) ||
-    (id_0_2 &&
-      id_0_2 == id_1_1 &&
-      id_0_2 == document.getElementById("2_0").textContent))
-    return true;
-
-  for (let i = 0; i < 3; i++) {
-    let id_i_0 = document.getElementById(i + "_0").textContent,
-      id_0_i = document.getElementById("0_" + i).textContent;
-
-    if ((id_i_0 &&
-      id_i_0 == document.getElementById(i + "_1").textContent &&
-      id_i_0 == document.getElementById(i + "_2").textContent) ||
-      (id_0_i &&
-        id_0_i == document.getElementById("1_" + i).textContent &&
-        id_0_i == document.getElementById("2_" + i).textContent))
-      return true;
-  }
-
-  return false;
-}
-
-function randomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
 let XOForm = document.querySelector(".xo-form");
 let XOSettings = {
   height: 3,
   width: 3,
-  playerSide: undefined,
-  botSide: undefined
+  playerSide: "X",
+  botSide: "O"
 };
 
 XOForm.addEventListener("submit", function (event) {
-  for (let item of this.side) {
-    if (item.checked) {
-      XOSettings.playerSide = item.id;
-    } else XOSettings.botSide = item.id;
+  for (let side of this.sides) {
+    if (side.checked) {
+      XOSettings.playerSide = side.id;
+    } else XOSettings.botSide = side.id;
   }
-  this.style.visibility = "hidden";//"visible"
+  this.style.visibility = "hidden";
   newXOGameInit(XOSettings);
   event.preventDefault();
 });
@@ -79,22 +37,102 @@ function createXOField(lenX, lenY) {
 
 function newXOGameInit(settings) {
   if (XOField) XOField.remove();
-  createXOField(settings.height, settings.width);
-  cells = Array.from(document.querySelectorAll('.xo-cell'));
-  XOField = document.querySelector(".xo-field");
-  if (XOSettings.botSide == "X") placeXO(cells[randomInt(cells.length)], XOSettings.botSide);
-  XOField.addEventListener("click", function (event) {
 
+  createXOField(settings.height, settings.width);
+  let cells = Array.from(document.querySelectorAll('.xo-cell'));
+  XOField = document.querySelector(".xo-field");
+
+  if (XOSettings.botSide == "X") placeXO(cells[randomInt(cells.length)], XOSettings.botSide);
+
+  XOField.addEventListener("click", xoClick);
+  XOField.addEventListener("dblclick", (event) => event.preventDefault());
+  XOField.addEventListener("contextmenu", (event) => event.preventDefault());
+
+  function xoClick(event) {
     let target = event.target;
 
-    if (target.className != "xo-cell" || target.textContent || isOver()) return;
+    if (target.className != "xo-cell" || target.textContent) return;
 
     placeXO(target, XOSettings.playerSide);
 
-    if (isOver()) return;
+    if (xoGameOver(isOver(settings))) return;
 
     placeXO(cells[randomInt(cells.length)], XOSettings.botSide);
-  });
-  XOField.addEventListener("dblclick", (event) => event.preventDefault());
-  XOField.addEventListener("contextmenu", (event) => event.preventDefault());
+
+    xoGameOver(isOver(settings));
+  }
+
+  function placeXO(elem, str) {
+    if (cells.length == 0) return;
+
+    elem.textContent = str;
+    cells.splice(cells.findIndex((item) => item === elem), 1);
+  }
+
+  function xoGameOver(result) {
+    switch (result) {
+      default:
+      case false:
+        break;
+
+      case settings.playerSide:
+        showFinalAlert("won");
+        XOField.removeEventListener("click", xoClick);
+        return true;
+
+      case settings.botSide:
+        showFinalAlert("lost");
+        XOField.removeEventListener("click", xoClick);
+        return true;
+    }
+  }
+
+  function isOver(settings) {
+    let val_00 = document.getElementById("0_0").textContent,
+      val_11 = document.getElementById("1_1").textContent,
+      val_22 = document.getElementById("2_2").textContent;
+  
+    if (val_00 && val_00 == val_11 && val_00 == val_22) {
+      return val_00 == settings.playerSide ? settings.playerSide : settings.botSide;
+    }
+  
+    let val_02 = document.getElementById("0_2").textContent,
+      val_20 = document.getElementById("2_0").textContent;
+  
+    if (val_02 && val_02 == val_11 && val_02 == val_20) {
+      return val_02 == settings.playerSide ? settings.playerSide : settings.botSide;
+    }
+  
+    for (let i = 0; i < 3; i++) {
+      let val_i0 = document.getElementById(i + "_0").textContent,
+        val_i1 = document.getElementById(i + "_1").textContent,
+        val_i2 = document.getElementById(i + "_2").textContent;
+  
+      if (val_i0 && val_i0 == val_i1 && val_i0 == val_i2) {
+        return val_i0 == settings.playerSide ? settings.playerSide : settings.botSide;
+      }
+  
+      let val_0i = document.getElementById("0_" + i).textContent,
+        val_1i = document.getElementById("1_" + i).textContent,
+        val_2i = document.getElementById("2_" + i).textContent;
+  
+      if (val_0i && val_0i == val_1i && val_0i == val_2i) {
+        return val_0i == settings.playerSide ? settings.playerSide : settings.botSide;
+      }
+    }
+    return false;
+  }
+
+  function showFinalAlert(message) {
+    let alertSuccess = document.createElement("div");
+    alertSuccess.className = "xo-result " + message;
+    alertSuccess.innerHTML = "You " + message + "!<br>" + "Wanna play again? "
+      + "<input type='button' id='XONewGame' value='Yes'>";
+    XOField.append(alertSuccess);
+    XONewGame.addEventListener("click", () => XOForm.style.visibility = "visible");
+  }
+}
+
+function randomInt(max) {
+  return Math.floor(Math.random() * max);
 }
