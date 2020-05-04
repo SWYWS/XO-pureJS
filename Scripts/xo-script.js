@@ -20,21 +20,6 @@ XOForm.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
-function createXOField(lenX, lenY) {
-  let field = document.createElement("div");
-  field.className = "xo-field";
-  XOForm.after(field);
-  for (let i = 0; i < lenY; i++) {
-    for (let j = 0; j < lenX; j++) {
-      let newElem = document.createElement("div");
-      newElem.className = "xo-cell";
-      newElem.id = i + "_" + j;
-      field.append(newElem);
-    }
-    field.append(document.createElement("br"));
-  }
-}
-
 function newXOGameInit(settings) {
   if (XOField) XOField.remove();
 
@@ -47,6 +32,21 @@ function newXOGameInit(settings) {
   XOField.addEventListener("click", xoClick);
   XOField.addEventListener("dblclick", (event) => event.preventDefault());
   XOField.addEventListener("contextmenu", (event) => event.preventDefault());
+
+  function createXOField(lenX, lenY) {
+    let field = document.createElement("div");
+    field.className = "xo-field";
+    XOForm.after(field);
+    for (let i = 0; i < lenY; i++) {
+      for (let j = 0; j < lenX; j++) {
+        let newElem = document.createElement("div");
+        newElem.className = "xo-cell";
+        newElem.id = i + "_" + j;
+        field.append(newElem);
+      }
+      field.append(document.createElement("br"));
+    }
+  }
 
   function xoClick(event) {
     let target = event.target;
@@ -124,11 +124,11 @@ function newXOGameInit(settings) {
   }
 
   function showFinalAlert(message) {
-    let alertSuccess = document.createElement("div");
-    alertSuccess.className = "xo-result " + message;
-    alertSuccess.innerHTML = "You " + message + "!<br>" + "Wanna play again? "
+    let alert = document.createElement("div");
+    alert.className = "xo-result " + message;
+    alert.innerHTML = "You " + message + "!<br>" + "Wanna play again? "
       + "<input type='button' id='XONewGame' value='Yes'>";
-    XOField.append(alertSuccess);
+    XOField.append(alert);
     XONewGame.addEventListener("click", () => XOForm.style.visibility = "visible");
   }
 }
