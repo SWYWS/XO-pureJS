@@ -84,6 +84,11 @@ function newXOGameInit(settings) {
         showFinalAlert("lost");
         XOField.removeEventListener("click", xoClick);
         return true;
+
+      case "Draw":
+        showFinalAlert("Draw");
+        XOField.removeEventListener("click", xoClick);
+        return true;
     }
   }
 
@@ -120,13 +125,16 @@ function newXOGameInit(settings) {
         return val_0i == settings.playerSide ? settings.playerSide : settings.botSide;
       }
     }
+
+    if (cells.length == 0) return "Draw";
+
     return false;
   }
 
   function showFinalAlert(message) {
     let alert = document.createElement("div");
     alert.className = "xo-result " + message;
-    alert.innerHTML = "You " + message + "!<br>" + "Wanna play again? "
+    alert.innerHTML = (message == "Draw" ? "" : "You ") + message + "!<br>" + "Wanna play again? "
       + "<input type='button' id='XONewGame' value='Yes'>";
     XOField.append(alert);
     XONewGame.addEventListener("click", () => XOForm.style.visibility = "visible");
