@@ -9,16 +9,19 @@ let XOSettings = {
   botSide: "O"
 };
 
-XOForm.addEventListener("submit", function (event) {
-  for (let side of this.sides) {
+
+
+startGame.addEventListener("click", function () {
+  for (let side of XOForm.sides) {
     if (side.checked) {
       XOSettings.playerSide = side.id;
     } else XOSettings.botSide = side.id;
   }
-  this.style.visibility = "hidden";
+  XOForm.style.visibility = "hidden";
   newXOGameInit(XOSettings);
-  event.preventDefault();
 });
+
+
 
 function newXOGameInit(settings) {
   if (XOField) XOField.remove();
@@ -33,10 +36,11 @@ function newXOGameInit(settings) {
   XOField.addEventListener("dblclick", (event) => event.preventDefault());
   XOField.addEventListener("contextmenu", (event) => event.preventDefault());
 
+
   function createXOField(lenX, lenY) {
     let field = document.createElement("div");
     field.className = "xo-field";
-    XOForm.after(field);
+    document.querySelector(".xo-game").append(field);
     for (let i = 0; i < lenY; i++) {
       for (let j = 0; j < lenX; j++) {
         let newElem = document.createElement("div");
@@ -47,6 +51,7 @@ function newXOGameInit(settings) {
       field.append(document.createElement("br"));
     }
   }
+
 
   function xoClick(event) {
     let target = event.target;
@@ -62,12 +67,14 @@ function newXOGameInit(settings) {
     xoGameOver(isOver(settings));
   }
 
+
   function placeXO(elem, str) {
     if (cells.length == 0) return;
 
     elem.textContent = str;
     cells.splice(cells.findIndex((item) => item === elem), 1);
   }
+
 
   function xoGameOver(result) {
     switch (result) {
@@ -91,6 +98,7 @@ function newXOGameInit(settings) {
         return true;
     }
   }
+
 
   function isOver(settings) {
     let val_00 = document.getElementById("0_0").textContent,
@@ -131,16 +139,18 @@ function newXOGameInit(settings) {
     return false;
   }
 
+
   function showFinalAlert(message) {
     let alert = document.createElement("div");
     alert.className = "xo-result " + message;
     alert.innerHTML = (message == "Draw" ? "" : "You ") + message + "!<br>" + "Wanna play again? "
-      + "<input type='button' id='XONewGame' value='Yes'>";
+      + "<a href='#' class='new-game-button' id='XONewGame'>Yes</a>"
     XOField.append(alert);
     XONewGame.addEventListener("click", () => XOForm.style.visibility = "visible");
   }
-}
+  
 
-function randomInt(max) {
-  return Math.floor(Math.random() * max);
+  function randomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 }

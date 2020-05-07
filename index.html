@@ -6,10 +6,11 @@
   </head>
   <body>
     <form class="xo-form">
-      <input type="radio" name="sides" id="X" checked><label for="X">Play as X</label><br>
-      <input type="radio" name="sides" id="O"><label for="O">Play as O</label><br>
-      <input type="submit" value="Start game">
+      <input type="radio" name="sides" class="xo-radio" id="X" checked><label for="X">play as <span class="xo-symbol">X</span></label>
+      <input type="radio" name="sides" class="xo-radio" id="O"><label for="O">play as <span class="xo-symbol">O</span></label><br>
+      <a href="#" class="new-game-button" id="startGame">Start game</a>
     </form>
+    <div class="xo-game"></div>
     <script src="scripts/xo-script.js"></script>
   </body>
 </html>
