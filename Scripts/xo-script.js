@@ -30,7 +30,7 @@ function newXOGameInit(settings) {
   let cells = Array.from(document.querySelectorAll('.xo-cell'));
   XOField = document.querySelector(".xo-field");
 
-  if (XOSettings.botSide == "X") placeXO(cells[randomInt(cells.length)], XOSettings.botSide);
+  if (settings.botSide == "X") placeXO(cells[randomInt(cells.length)], settings.botSide);
 
   XOField.addEventListener("click", xoClick);
   XOField.addEventListener("dblclick", (event) => event.preventDefault());
@@ -58,11 +58,11 @@ function newXOGameInit(settings) {
 
     if (target.className != "xo-cell" || target.textContent) return;
 
-    placeXO(target, XOSettings.playerSide);
+    placeXO(target, settings.playerSide);
 
     if (xoGameOver(isOver(settings))) return;
 
-    placeXO(cells[randomInt(cells.length)], XOSettings.botSide);
+    placeXO(cells[randomInt(cells.length)], settings.botSide);
 
     xoGameOver(isOver(settings));
   }
@@ -144,7 +144,7 @@ function newXOGameInit(settings) {
     let alert = document.createElement("div");
     alert.className = "xo-result " + message;
     alert.innerHTML = (message == "Draw" ? "" : "You ") + message + "!<br>" + "Wanna play again? "
-      + "<a href='#' class='new-game-button' id='XONewGame'>Yes</a>"
+      + "<a href='#' class='new-game-button' id='XONewGame'>yes</a>"
     XOField.append(alert);
     XONewGame.addEventListener("click", () => XOForm.style.visibility = "visible");
   }
