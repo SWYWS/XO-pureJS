@@ -18,7 +18,7 @@ body {
 
 .xo-form label {
   cursor: pointer;
-  margin-left: 30px;
+  margin-left: 23px;
   font-family: TREBUCHET MS;
 }
 
@@ -28,11 +28,13 @@ body {
 
 .xo-symbol {
   font-family: cursive;
+  font-size: 25px;
 }
 
 .xo-game {
   width: 330px;
-  height: 400px;
+  height: 450px;
+  margin-top: 20px;
 }
 
 .xo-cell {
@@ -84,6 +86,7 @@ body {
 a.new-game-button {
   position: relative;
   display: inline-block;
+  font-family: TREBUCHET MS;
   font-size: 90%;
   font-weight: 700;
   color: rgb(209,209,217);
