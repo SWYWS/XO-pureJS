@@ -6,8 +6,12 @@
   </head>
   <body>
     <form class="xo-form">
-      <input type="radio" name="sides" class="xo-radio" id="X" checked><label for="X">play as <span class="xo-symbol">X</span></label>
-      <input type="radio" name="sides" class="xo-radio" id="O"><label for="O">play as <span class="xo-symbol">O</span></label><br>
+      <input type="radio" name="players" class="xo-radio" id="X" checked><label for="X">play as <span class="xo-symbol">X</span></label>
+      <input type="radio" name="players" class="xo-radio" id="O"><label for="O">play as <span class="xo-symbol">O</span></label><br>
+      <div class="diff">
+        <input type="radio" name="difficulty" id="easy" class="xo-raio" checked><label for="easy">easy</label>
+        <input type="radio" name="difficulty" id="hard" class="xo-raio"><label for="hard">hard</label><br>
+      </div>
       <a href="#" class="new-game-button" id="startGame">start game</a>
     </form>
     <div class="xo-game"></div>
