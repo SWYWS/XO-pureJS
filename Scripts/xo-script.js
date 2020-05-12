@@ -37,6 +37,10 @@ function xoGameInit(settings) {
   let xoField = createXOField();
   xoField.addEventListener("click", xoClick);
   xoField.addEventListener("contextmenu", event => event.preventDefault());
+  if (settings.aiPlayer == "X") {
+    document.getElementById("4").textContent = settings.aiPlayer;
+    xoArr[4] = settings.aiPlayer;
+  }
   let getIdAi = (function () {
     switch (settings.difficulty) {
       default:
