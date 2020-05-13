@@ -37,10 +37,6 @@ function xoGameInit(settings) {
   let xoField = createXOField();
   xoField.addEventListener("click", xoClick);
   xoField.addEventListener("contextmenu", event => event.preventDefault());
-  if (settings.aiPlayer == "X") {
-    document.getElementById("4").textContent = settings.aiPlayer;
-    xoArr[4] = settings.aiPlayer;
-  }
   let getIdAi = (function () {
     switch (settings.difficulty) {
       default:
@@ -51,6 +47,13 @@ function xoGameInit(settings) {
         return minimax;
     }
   })();
+  if (settings.aiPlayer == "X") {
+    let firstMove = getIdAi(xoArr, settings.aiPlayer).index;
+    let elem = document.getElementById(firstMove);
+    elem.textContent = settings.aiPlayer;
+    if (settings.difficulty == "hard") elem.style.color = "red";
+    xoArr[firstMove] = settings.aiPlayer;
+  }
 
   function createXOField() {
     let field = document.createElement("div");
@@ -94,7 +97,9 @@ function xoGameInit(settings) {
     }
 
     let id = getIdAi(xoArr, settings.aiPlayer).index;
-    document.getElementById(id).textContent = settings.aiPlayer;
+    let elem = document.getElementById(id);
+    elem.textContent = settings.aiPlayer;
+    if (settings.difficulty == "hard") elem.style.color = "red";
     xoArr[id] = settings.aiPlayer;
 
     if (xoWin_3x3(xoArr, settings.aiPlayer)) {
@@ -103,7 +108,6 @@ function xoGameInit(settings) {
     } else if (getEmptyIds(xoArr).length == 0) {
       showFinalAlert("Draw");
       this.removeEventListener("click", xoClick);
-      return;
     }
   }
 
